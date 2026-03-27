@@ -9,9 +9,9 @@ export function MinimalFooter() {
       </div>
       
       <div className="flex items-center gap-8 font-mono text-xs tracking-widest text-white/40 uppercase">
-        <a href="#" className="hover:text-emerald-500 transition-colors">Twitter</a>
-        <a href="#" className="hover:text-emerald-500 transition-colors">LinkedIn</a>
-        <a href="#" className="hover:text-emerald-500 transition-colors">Email</a>
+        <a href="https://twitter.com/coomarprantik" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-500 transition-colors">Twitter</a>
+        <a href="https://www.linkedin.com/in/coomarprantik/" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-500 transition-colors">LinkedIn</a>
+        <a href="mailto:prantik@tryfrontier.com" className="hover:text-emerald-500 transition-colors">Email</a>
         <span className="ml-4">&copy; 2026</span>
       </div>
     </footer>

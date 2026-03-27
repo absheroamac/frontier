@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export function Header() {
   return (
@@ -9,15 +10,21 @@ export function Header() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1, ease: [0.34, 1.56, 0.64, 1] }}
     >
-      <div className="pointer-events-auto cursor-pointer">
+      <Link href="/" className="pointer-events-auto cursor-pointer">
         {/* Depending on background, difference blend ensures visibility for either logo */}
         <img src="/assets/frontierforDark.png" alt="Frontier" className="h-[22px] md:h-6 object-contain" />
-      </div>
+      </Link>
       
-      <div className="pointer-events-auto">
-        <button className="text-white font-mono text-xs tracking-[0.2em] uppercase hover:text-emerald-500 transition-colors">
-          Menu
+      <div className="pointer-events-auto flex items-center gap-8">
+        <button 
+          onClick={() => window.dispatchEvent(new CustomEvent('TOGGLE_MENU'))}
+          className="text-white font-mono text-[10px] md:text-[11px] tracking-[0.2em] uppercase hover:text-emerald-500 transition-colors"
+        >
+          MENU
         </button>
+        <a href="/contact" className="px-6 py-2.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm text-white text-[10px] md:text-[11px] font-mono tracking-widest uppercase hover:bg-white hover:text-carbon transition-colors duration-300">
+          LET'S TALK
+        </a>
       </div>
     </motion.header>
   );

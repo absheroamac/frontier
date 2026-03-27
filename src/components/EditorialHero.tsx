@@ -55,6 +55,11 @@ export function EditorialHero() {
         >
           Building systems for the next era of digital. Operating at the intersection of startup strategy, product engineering, and storytelling.
         </motion.p>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 border-t border-carbon/10 pt-8" style={{ borderTop: '1px solid rgba(10,10,10,0.1)' }}>
+          <a href="#archive" className="px-8 py-3.5 rounded-full border border-carbon/20 bg-transparent text-carbon text-[10px] md:text-[11px] font-mono tracking-widest uppercase hover:bg-carbon/5 transition-colors duration-300 shrink-0">
+            VIEW THE ARCHIVE
+          </a>
+        </div>
       </div>
     </section>
   );

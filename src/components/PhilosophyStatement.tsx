@@ -1,6 +1,6 @@
 "use client";
-import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
 
 const galleryImages = [
   "https://images.unsplash.com/photo-1541462608143-67571c6738dd?auto=format&fit=crop&w=600&q=80",
@@ -12,8 +12,19 @@ const galleryImages = [
 ];
 
 export function PhilosophyStatement() {
+  const containerRef = useRef<HTMLDivElement>(null);
   const [particles, setParticles] = useState<{ width: number; left: string; top: string; delay: number; duration: number }[]>([]);
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
+
+  // Bind animation explicitly to scroll
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 0.85", "center center"], // start animating when top of section crosses 85% of screen, finish at center
+  });
+
+  const y1 = useTransform(scrollYProgress, [0, 1], ["100%", "0%"]);
+  const y2 = useTransform(scrollYProgress, [0.1, 1], ["100%", "0%"]);
+  const y3 = useTransform(scrollYProgress, [0.2, 1], ["100%", "0%"]);
 
   useEffect(() => {
     setParticles(
@@ -34,7 +45,11 @@ export function PhilosophyStatement() {
   }, []);
 
   return (
-    <section className="relative w-full bg-[#0a0f12] px-6 md:px-12 lg:px-24 py-24 lg:py-0 lg:h-screen lg:min-h-[850px] lg:max-h-[1200px] flex flex-col justify-center overflow-hidden">
+    <section 
+      id="manifesto"
+      ref={containerRef}
+      className="relative w-full bg-[#0a0f12] px-6 md:px-12 lg:px-24 py-24 lg:py-0 lg:h-screen lg:min-h-[850px] lg:max-h-[1200px] flex flex-col justify-center overflow-hidden"
+    >
       
       {/* Deep Antigravity-style particle background */}
       <div className="absolute inset-0 pointer-events-none opacity-40 mix-blend-screen">
@@ -52,15 +67,12 @@ export function PhilosophyStatement() {
 
       <div className="relative z-20 max-w-7xl mx-auto w-full flex flex-col justify-between h-full py-12 lg:py-24">
         
-        {/* Top: Staggered Typography coming from below with text masking */}
+        {/* Top: Staggered Typography scrubbed via scroll with text masking */}
         <div className="flex flex-col text-5xl md:text-7xl lg:text-[7.5rem] font-display font-medium tracking-tighter leading-[0.95] md:leading-[1.0]">
           
           <div className="overflow-hidden w-full">
-            <motion.div
-              initial={{ y: "100%" }}
-              whileInView={{ y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 1.2, ease: [0.34, 1.56, 0.64, 1] }}
+            <motion.div 
+              style={{ y: y1 }}
               className="text-white pb-2"
             >
               Design.
@@ -68,11 +80,8 @@ export function PhilosophyStatement() {
           </div>
 
           <div className="overflow-hidden w-full pl-8 md:pl-32 lg:pl-56">
-            <motion.div
-              initial={{ y: "100%" }}
-              whileInView={{ y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 1.2, delay: 0.1, ease: [0.34, 1.56, 0.64, 1] }}
+            <motion.div 
+              style={{ y: y2 }}
               className="text-white pb-2"
             >
               Systems.
@@ -80,11 +89,8 @@ export function PhilosophyStatement() {
           </div>
 
           <div className="overflow-hidden w-full pl-16 md:pl-56 lg:pl-[28rem]">
-            <motion.div
-              initial={{ y: "100%" }}
-              whileInView={{ y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 1.2, delay: 0.2, ease: [0.34, 1.56, 0.64, 1] }}
+            <motion.div 
+              style={{ y: y3 }}
               className="text-emerald-500 pb-2"
             >
               Velocity.
@@ -99,8 +105,8 @@ export function PhilosophyStatement() {
           <div className="overflow-hidden">
             <motion.div 
               className="w-full max-w-[320px] lg:w-[360px] aspect-square bg-white/5 relative flex-shrink-0"
-              initial={{ opacity: 0, y: 100 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.95, y: 50 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 1, delay: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
             >
