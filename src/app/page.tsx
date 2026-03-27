@@ -13,7 +13,7 @@ export default function Home() {
   const allArticles = getSortedArticlesData();
 
   return (
-    <main className="relative min-h-screen bg-carbon overflow-hidden selection:bg-emerald-500 selection:text-white">
+    <main className="relative min-h-screen bg-carbon selection:bg-emerald-500 selection:text-white">
       <Header />
       <GenerativeCircleBackground />
       <EditorialHero />

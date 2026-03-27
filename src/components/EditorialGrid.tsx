@@ -1,6 +1,6 @@
 "use client";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { ArticleData } from "@/lib/mdx";
 
@@ -11,13 +11,21 @@ export function EditorialGrid({ allArticles }: { allArticles: ArticleData[] }) {
   const articles = allArticles.slice(0, 3);
   const archiveArticles = allArticles.slice(3);
 
+  const targetRef = useRef<HTMLDivElement>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ 
+    target: targetRef,
+    offset: ["start start", "end end"]
+  });
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-66.666%"]);
+
   return (
     <motion.section 
       id="journal"
       onViewportEnter={() => setIsLight(true)}
       onViewportLeave={() => setIsLight(false)}
       viewport={{ margin: "-25% 0px -25% 0px" }}
-      className={`relative w-full px-6 md:px-12 lg:px-24 py-32 overflow-hidden border-t transition-colors duration-1000 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${isLight ? 'bg-[#f4f4f5] border-carbon/10 text-carbon' : 'bg-[#161a1d] border-white/5 text-white'}`}
+      className={`relative w-full px-6 md:px-12 lg:px-24 py-32 border-t transition-colors duration-1000 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${isLight ? 'bg-[#f4f4f5] border-carbon/10 text-carbon' : 'bg-[#161a1d] border-white/5 text-white'}`}
     >
       <div className="max-w-7xl mx-auto">
         
@@ -26,52 +34,62 @@ export function EditorialGrid({ allArticles }: { allArticles: ArticleData[] }) {
           <span className="font-mono text-xs tracking-widest text-emerald-500 hidden md:block uppercase mb-2">Essays & Observations</span>
         </div>
 
-        <div className="flex flex-col gap-32 md:gap-48 relative mb-32 md:mb-48">
-          <div className={`hidden md:block absolute left-1/2 top-0 bottom-0 w-[1px] -translate-x-1/2 transition-colors duration-1000 ${isLight ? 'bg-carbon/5' : 'bg-white/5'}`} />
+        {/* Horizontal Scroll Section */}
+        <div ref={targetRef} className="relative h-[300vh] w-[100vw] left-1/2 -translate-x-1/2 mb-32 md:mb-48">
+          <div ref={stickyRef} className="sticky top-0 h-screen flex items-center overflow-hidden w-full bg-transparent">
+            <motion.div style={{ x }} className="flex w-[300vw] h-full items-center">
+              {articles.map((article, i) => {
+                const slug = article.slug;
+                
+                return (
+                  <div key={article.title} className="w-[100vw] h-full flex items-center justify-center flex-shrink-0 px-6 md:px-12 lg:px-24">
+                    <Link href={`/articles/${slug}`} className="block w-full max-w-7xl">
+                      <article className={`relative flex flex-col gap-12 lg:gap-24 items-center group cursor-pointer lg:flex-row`}>
+                        
+                        <motion.div 
+                          className={`w-full lg:w-5/12 relative aspect-[3/4] md:aspect-[4/5] overflow-hidden transition-colors duration-1000 ${isLight ? 'bg-carbon/5' : 'bg-white/5'}`}
+                          initial={{ opacity: 0, scale: 0.95 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          viewport={{ root: stickyRef, amount: 0.4 }}
+                          transition={{ duration: 0.8, ease: [0.34, 1.56, 0.64, 1] }}
+                        >
+                          <motion.img 
+                            src={article.image} 
+                            alt={article.title}
+                            className="w-full h-full object-cover opacity-80 mix-blend-luminosity grayscale group-hover:grayscale-0 group-hover:opacity-100 group-hover:mix-blend-normal transition-all duration-[1s]"
+                            whileHover={{ scale: 1.05 }}
+                          />
+                          <div className={`absolute top-4 left-4 font-mono text-[10px] tracking-widest px-2 py-1 backdrop-blur-sm transition-colors duration-1000 ${isLight ? 'text-carbon/60 bg-white/50' : 'text-white/50 bg-carbon/50'}`}>FIG. 0{i + 1}</div>
+                        </motion.div>
 
-          {articles.map((article, i) => {
-            const isLeft = i % 2 === 0; // Fixed alternating pattern purely by index
-            const slug = article.slug;
-            
-            return (
-              <Link key={article.title} href={`/articles/${slug}`} className="block">
-                <motion.article 
-                  className={`relative flex flex-col gap-12 lg:gap-24 items-center group cursor-pointer ${isLeft ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}
-                  initial={{ opacity: 0, y: 80 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-150px" }}
-                  transition={{ duration: 1.2, ease: [0.34, 1.56, 0.64, 1] }}
-                >
-                  
-                  <div className={`w-full lg:w-5/12 relative aspect-[3/4] md:aspect-[4/5] overflow-hidden transition-colors duration-1000 ${isLight ? 'bg-carbon/5' : 'bg-white/5'}`}>
-                    <motion.img 
-                      src={article.image} 
-                      alt={article.title}
-                      className="w-full h-full object-cover opacity-80 mix-blend-luminosity grayscale group-hover:grayscale-0 group-hover:opacity-100 group-hover:mix-blend-normal transition-all duration-[1s]"
-                      whileHover={{ scale: 1.05 }}
-                    />
-                    <div className={`absolute top-4 left-4 font-mono text-[10px] tracking-widest px-2 py-1 backdrop-blur-sm transition-colors duration-1000 ${isLight ? 'text-carbon/60 bg-white/50' : 'text-white/50 bg-carbon/50'}`}>FIG. 0{i + 1}</div>
+                        <motion.div 
+                          className="w-full lg:w-7/12 flex flex-col z-10 lg:pl-12"
+                          initial={{ opacity: 0, x: 30 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ root: stickyRef, amount: 0.4 }}
+                          transition={{ duration: 0.8, delay: 0.1, ease: [0.34, 1.56, 0.64, 1] }}
+                        >
+                          <span className={`font-mono text-xs md:text-sm tracking-[0.2em] mb-8 uppercase border-b inline-block w-max pb-2 transition-colors duration-1000 ${isLight ? 'text-carbon/40 border-carbon/10' : 'text-white/40 border-white/10'}`}>{article.date}</span>
+                          <h3 className="text-4xl md:text-5xl lg:text-7xl font-display font-medium tracking-tighter leading-[1.05] mb-8 group-hover:text-emerald-500 transition-colors duration-500">
+                            {article.title}
+                          </h3>
+                          <p className={`font-body text-base lg:text-xl leading-relaxed max-w-xl mb-12 transition-colors duration-1000 ${isLight ? 'text-carbon/70' : 'text-white/60'}`}>
+                            {article.excerpt}
+                          </p>
+                          
+                          <div className="flex items-center gap-6">
+                            <div className={`w-16 h-[1px] group-hover:w-32 group-hover:bg-emerald-500 transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${isLight ? 'bg-carbon/20' : 'bg-white/20'}`} />
+                            <span className={`font-mono text-xs tracking-widest uppercase transition-colors duration-1000 ${isLight ? 'text-carbon/50 group-hover:text-carbon' : 'text-white/40 group-hover:text-white'}`}>Read Essay</span>
+                          </div>
+                        </motion.div>
+
+                      </article>
+                    </Link>
                   </div>
-
-                  <div className="w-full lg:w-7/12 flex flex-col z-10">
-                    <span className={`font-mono text-xs md:text-sm tracking-[0.2em] mb-8 uppercase border-b inline-block w-max pb-2 transition-colors duration-1000 ${isLight ? 'text-carbon/40 border-carbon/10' : 'text-white/40 border-white/10'}`}>{article.date}</span>
-                    <h3 className="text-4xl md:text-6xl lg:text-7xl font-display font-medium tracking-tighter leading-[1.05] mb-8 group-hover:text-emerald-500 transition-colors duration-500">
-                      {article.title}
-                    </h3>
-                    <p className={`font-body text-lg md:text-xl leading-relaxed max-w-xl mb-12 transition-colors duration-1000 ${isLight ? 'text-carbon/70' : 'text-white/60'}`}>
-                      {article.excerpt}
-                    </p>
-                    
-                    <div className="flex items-center gap-6">
-                      <div className={`w-16 h-[1px] group-hover:w-32 group-hover:bg-emerald-500 transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${isLight ? 'bg-carbon/20' : 'bg-white/20'}`} />
-                      <span className={`font-mono text-xs tracking-widest uppercase transition-colors duration-1000 ${isLight ? 'text-carbon/50 group-hover:text-carbon' : 'text-white/40 group-hover:text-white'}`}>Read Essay</span>
-                    </div>
-                  </div>
-
-                </motion.article>
-              </Link>
-            );
-          })}
+                );
+              })}
+            </motion.div>
+          </div>
         </div>
         
         {/* Archive Grid */}
