@@ -1,12 +1,21 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
+
+const galleryImages = [
+  "https://images.unsplash.com/photo-1541462608143-67571c6738dd?auto=format&fit=crop&w=600&q=80",
+  "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80",
+  "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=600&q=80",
+  "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80",
+  "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=600&q=80",
+  "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80",
+];
 
 export function PhilosophyStatement() {
   const [particles, setParticles] = useState<{ width: number; left: string; top: string; delay: number; duration: number }[]>([]);
+  const [currentImgIndex, setCurrentImgIndex] = useState(0);
 
   useEffect(() => {
-    // Generate particles client-side to strictly avoid SSR hydration mismatches
     setParticles(
       Array.from({ length: 40 }).map(() => ({
         width: Math.random() * 2 + 1,
@@ -16,10 +25,17 @@ export function PhilosophyStatement() {
         duration: Math.random() * 15 + 15,
       }))
     );
+    
+    const imgInterval = setInterval(() => {
+      setCurrentImgIndex((prev) => (prev + 1) % galleryImages.length);
+    }, 350); 
+    
+    return () => clearInterval(imgInterval);
   }, []);
 
   return (
-    <section className="relative w-full bg-[#0a0f12] px-6 md:px-12 lg:px-24 py-48 lg:py-64 overflow-hidden">
+    <section className="relative w-full bg-[#0a0f12] px-6 md:px-12 lg:px-24 py-24 lg:py-0 lg:h-screen lg:min-h-[850px] lg:max-h-[1200px] flex flex-col justify-center overflow-hidden">
+      
       {/* Deep Antigravity-style particle background */}
       <div className="absolute inset-0 pointer-events-none opacity-40 mix-blend-screen">
         <div className="absolute inset-0 bg-gradient-to-b from-carbon via-transparent to-carbon z-10" />
@@ -34,49 +50,99 @@ export function PhilosophyStatement() {
         ))}
       </div>
 
-      <div className="relative z-20 max-w-7xl mx-auto flex flex-col lg:flex-row gap-24 items-center">
+      <div className="relative z-20 max-w-7xl mx-auto w-full flex flex-col justify-between h-full py-12 lg:py-24">
         
-        <div className="lg:w-1/2">
-          <motion.div 
-            className="w-16 h-[1px] bg-emerald-500 mb-12"
-            initial={{ scaleX: 0, originX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, ease: [0.34, 1.56, 0.64, 1] }}
-          />
-          <motion.h3 
-            className="text-5xl md:text-6xl lg:text-8xl font-display font-medium tracking-tighter leading-[1.05]"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1, ease: [0.34, 1.56, 0.64, 1] }}
-          >
-            Design.<br />
-            Systems.<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-white/60">Velocity.</span>
-          </motion.h3>
+        {/* Top: Staggered Typography coming from below with text masking */}
+        <div className="flex flex-col text-5xl md:text-7xl lg:text-[7.5rem] font-display font-medium tracking-tighter leading-[0.95] md:leading-[1.0]">
+          
+          <div className="overflow-hidden w-full">
+            <motion.div
+              initial={{ y: "100%" }}
+              whileInView={{ y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.2, ease: [0.34, 1.56, 0.64, 1] }}
+              className="text-white pb-2"
+            >
+              Design.
+            </motion.div>
+          </div>
+
+          <div className="overflow-hidden w-full pl-8 md:pl-32 lg:pl-56">
+            <motion.div
+              initial={{ y: "100%" }}
+              whileInView={{ y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.2, delay: 0.1, ease: [0.34, 1.56, 0.64, 1] }}
+              className="text-white pb-2"
+            >
+              Systems.
+            </motion.div>
+          </div>
+
+          <div className="overflow-hidden w-full pl-16 md:pl-56 lg:pl-[28rem]">
+            <motion.div
+              initial={{ y: "100%" }}
+              whileInView={{ y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.2, delay: 0.2, ease: [0.34, 1.56, 0.64, 1] }}
+              className="text-emerald-500 pb-2"
+            >
+              Velocity.
+            </motion.div>
+          </div>
+
         </div>
 
-        <div className="lg:w-1/2 flex flex-col gap-12 border-l border-white/5 pl-8 md:pl-16">
-          <motion.p 
-            className="text-2xl md:text-3xl text-white/80 font-display tracking-tight leading-snug"
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1, delay: 0.2, ease: [0.34, 1.56, 0.64, 1] }}
-          >
-            AI accelerates execution. Human taste defines the outcome.
-          </motion.p>
+        {/* Bottom: Gallery Box and Right-aligned Text */}
+        <div className="flex flex-col lg:flex-row justify-between items-end gap-12 lg:gap-16 w-full mt-24 lg:mt-auto">
           
-          <motion.p 
-            className="text-lg md:text-xl text-white/40 font-body leading-relaxed"
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1, delay: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
-          >
-            We don't do 'digital solutions.' We build products people understand instantly. From 0 to 1, utilizing deep contrast, cinematic motion, and uncompromising craft.
-          </motion.p>
+          <div className="overflow-hidden">
+            <motion.div 
+              className="w-full max-w-[320px] lg:w-[360px] aspect-square bg-white/5 relative flex-shrink-0"
+              initial={{ opacity: 0, y: 100 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1, delay: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
+            >
+              <AnimatePresence mode="popLayout">
+                <motion.img 
+                  key={currentImgIndex}
+                  src={galleryImages[currentImgIndex]}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute inset-0 w-full h-full object-cover grayscale opacity-80 mix-blend-luminosity"
+                />
+              </AnimatePresence>
+              <div className="absolute top-4 left-4 font-mono text-[10px] tracking-widest text-emerald-500 px-3 py-1 bg-carbon/80 border border-emerald-500/20 uppercase backdrop-blur-sm shadow-md">
+                REC {currentImgIndex + 1}/{galleryImages.length}
+              </div>
+            </motion.div>
+          </div>
+
+          <div className="w-full lg:w-5/12 flex flex-col gap-6 lg:gap-8 pb-2">
+            <motion.p 
+              className="text-2xl md:text-3xl text-white/90 font-display tracking-tight leading-[1.3] m-0"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1, delay: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
+            >
+              AI accelerates execution. Human taste defines the outcome.
+            </motion.p>
+            
+            <motion.p 
+              className="text-base md:text-lg text-white/50 font-body leading-relaxed max-w-lg m-0"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1, delay: 0.5, ease: [0.34, 1.56, 0.64, 1] }}
+            >
+              We don't do 'digital solutions.' We build products people understand instantly. From 0 to 1, utilizing deep contrast, cinematic motion, and uncompromising craft.
+            </motion.p>
+          </div>
+
         </div>
 
       </div>

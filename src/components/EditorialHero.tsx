@@ -11,28 +11,27 @@ export function EditorialHero() {
 
   return (
     <section ref={containerRef} className="relative w-full h-[100svh] flex items-center justify-center overflow-hidden bg-carbon pt-24">
-      <div className="absolute top-1/2 left-6 md:left-12 -translate-y-1/2 z-20 hidden lg:block">
-        <span className="font-mono text-xs tracking-[0.2em] text-white/50 uppercase origin-bottom-left -rotate-90 block">Product Architect</span>
-      </div>
-      <div className="absolute top-1/2 right-6 md:right-12 -translate-y-1/2 z-20 hidden lg:block">
-        <span className="font-mono text-xs tracking-[0.2em] text-white/50 uppercase origin-bottom-right rotate-90 block">Strategist</span>
+      {/* 4 Center Tags */}
+      <div className="absolute top-[40%] md:top-[38%] left-0 w-full -translate-y-1/2 z-20 px-6 md:px-12 flex justify-between items-center pointer-events-none">
+        <span className="font-mono text-[10px] md:text-xs tracking-[0.2em] text-white/80 uppercase">Product Architect</span>
+        <span className="font-mono text-[10px] md:text-xs tracking-[0.2em] text-white/80 uppercase mr-[12vw] md:mr-[15vw]">Strategist</span>
+        <span className="font-mono text-[10px] md:text-xs tracking-[0.2em] text-white/80 uppercase ml-[12vw] md:ml-[15vw]">Engineer</span>
+        <span className="font-mono text-[10px] md:text-xs tracking-[0.2em] text-white/80 uppercase">Storyteller</span>
       </div>
 
-      <motion.div 
-        style={{ y: yText, opacity: opacityText }}
-        className="absolute w-full flex flex-col items-center justify-center select-none z-10 pointer-events-none"
+      {/* Huge Bottom Name Overlapping Image */}
+      <motion.h1 
+        className="absolute bottom-[2%] w-full text-center text-[13.5vw] leading-none font-display font-medium tracking-tighter text-white z-30 pointer-events-none whitespace-nowrap mix-blend-difference"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.2, delay: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
       >
-        <span className="text-[17vw] md:text-[18vw] leading-[0.8] font-display font-medium tracking-tighter text-white/5 whitespace-nowrap">
-          SYSTEMS
-        </span>
-        <span className="text-[14vw] md:text-[15vw] leading-[0.8] font-display font-medium tracking-tighter text-white/10 whitespace-nowrap ml-12">
-          ARCHITECT
-        </span>
-      </motion.div>
+        Coomar Prantik
+      </motion.h1>
 
       <motion.div 
         style={{ y: yImage }}
-        className="relative z-20 w-full max-w-2xl h-full flex items-end justify-center pt-16 md:pt-24"
+        className="relative z-20 w-full max-w-2xl h-[105%] flex items-end justify-center pb-[10vh] md:pb-[15vh]"
         initial={{ opacity: 0, scale: 0.95, y: 50 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 1.5, ease: [0.34, 1.56, 0.64, 1], delay: 0.2 }}
@@ -47,12 +46,12 @@ export function EditorialHero() {
         />
       </motion.div>
 
-      <div className="absolute bottom-12 left-6 md:left-12 z-30 max-w-sm hidden md:block">
+      <div className="absolute bottom-[16vw] right-6 md:right-12 z-30 max-w-xs md:max-w-sm hidden md:block text-right">
         <motion.p 
-          initial={{ opacity: 0, x: -20 }}
+          initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 0.8 }}
-          className="text-white/60 font-body text-sm leading-relaxed"
+          className="text-white/70 font-body text-sm leading-relaxed"
         >
           Building systems for the next era of digital. Operating at the intersection of startup strategy, product engineering, and storytelling.
         </motion.p>

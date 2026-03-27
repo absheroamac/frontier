@@ -3,7 +3,6 @@ import { EditorialHero } from "@/components/EditorialHero";
 import { AuthorityMetrics } from "@/components/AuthorityMetrics";
 import { PhilosophyStatement } from "@/components/PhilosophyStatement";
 import { EditorialGrid } from "@/components/EditorialGrid";
-import { JournalArchiveGrid } from "@/components/JournalArchiveGrid";
 import { ContactSection } from "@/components/ContactSection";
 import { MinimalFooter } from "@/components/MinimalFooter";
 import { GenerativeCircleBackground } from "@/components/GenerativeCircleBackground";
@@ -17,7 +16,6 @@ export default function Home() {
       <AuthorityMetrics />
       <PhilosophyStatement />
       <EditorialGrid />
-      <JournalArchiveGrid />
       <ContactSection />
       <MinimalFooter />
     </main>
