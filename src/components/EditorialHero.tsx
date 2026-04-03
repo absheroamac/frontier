@@ -1,13 +1,12 @@
 "use client";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 import Image from "next/image";
 
 import { useRef } from "react";
 
 export function EditorialHero() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
-  // Unused progress variables removed for linting
+  useScroll({ target: containerRef, offset: ["start start", "end start"] });
 
 
   return (
