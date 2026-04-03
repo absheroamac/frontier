@@ -2,6 +2,8 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
+
 
 export function MenuOverlay() {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,9 +50,15 @@ export function MenuOverlay() {
         >
           {/* Header */}
           <div className="flex justify-between items-center w-full">
-            <Link href="/" onClick={() => setIsOpen(false)}>
-              <img src="/assets/frontierforDark.png" alt="Frontier Logo" className="h-4 md:h-5 object-contain" />
+            <Link href="/" onClick={() => setIsOpen(false)} className="relative h-4 md:h-5 w-24">
+              <Image 
+                src="/assets/frontierforDark.png" 
+                alt="Frontier Logo" 
+                fill
+                className="object-contain" 
+              />
             </Link>
+
             
             <button 
               onClick={() => setIsOpen(false)}

@@ -1,6 +1,8 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
+
 
 export function ArticleNav() {
   return (
@@ -10,9 +12,15 @@ export function ArticleNav() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1, ease: [0.34, 1.56, 0.64, 1] }}
     >
-      <Link href="/" className="pointer-events-auto cursor-pointer">
-        <img src="/assets/frontierforLight.png" alt="Frontier" className="h-[22px] md:h-6 object-contain" />
+      <Link href="/" className="pointer-events-auto cursor-pointer relative h-[22px] md:h-6 w-32">
+        <Image 
+          src="/assets/frontierforLight.png" 
+          alt="Frontier" 
+          fill
+          className="object-contain" 
+        />
       </Link>
+
       
       <div className="pointer-events-auto flex items-center gap-8">
         <button 
@@ -22,8 +30,9 @@ export function ArticleNav() {
           MENU
         </button>
         <a href="/contact" className="px-6 py-2.5 rounded-full border border-carbon/20 bg-carbon/5 backdrop-blur-sm text-carbon text-[10px] md:text-[11px] font-mono tracking-widest uppercase hover:bg-carbon hover:text-white transition-colors duration-300">
-          LET'S TALK
+          LET&apos;S TALK
         </a>
+
       </div>
     </motion.header>
   );

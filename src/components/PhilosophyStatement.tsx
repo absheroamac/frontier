@@ -145,7 +145,7 @@ export function PhilosophyStatement() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 1, delay: 0.5, ease: [0.34, 1.56, 0.64, 1] }}
             >
-              We don't do 'digital solutions.' We build products people understand instantly. From 0 to 1, utilizing deep contrast, cinematic motion, and uncompromising craft.
+              We don&apos;t do &apos;digital solutions.&apos; We build products people understand instantly. From 0 to 1, utilizing deep contrast, cinematic motion, and uncompromising craft.
             </motion.p>
           </div>
 

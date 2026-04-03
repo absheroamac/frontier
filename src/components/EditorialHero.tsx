@@ -1,13 +1,14 @@
 "use client";
 import { motion, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
+
 import { useRef } from "react";
 
 export function EditorialHero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
-  const yText = useTransform(scrollYProgress, [0, 1], [0, 200]);
-  const yImage = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const opacityText = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  // Unused progress variables removed for linting
+
 
   return (
     <section ref={containerRef} className="relative w-full h-[100svh] flex items-center justify-center overflow-hidden bg-carbon pt-24">
@@ -30,20 +31,23 @@ export function EditorialHero() {
       </motion.h1>
 
       <motion.div 
-        style={{ y: yImage }}
         className="relative z-20 w-full max-w-2xl h-[105%] flex items-end justify-center pb-[10vh] md:pb-[15vh]"
+
         initial={{ opacity: 0, scale: 0.95, y: 50 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 1.5, ease: [0.34, 1.56, 0.64, 1], delay: 0.2 }}
       >
         <div className="absolute top-[30%] left-1/2 -translate-x-1/2 w-[80%] h-[80%] bg-emerald-500/15 rounded-full blur-[100px]" />
         
-        <img 
+        <Image 
           src="/assets/founder.png" 
           alt="Founder" 
+          fill
+          priority
           className="relative z-10 w-full h-[105%] md:h-[115%] object-cover object-top drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
           style={{ maskImage: 'linear-gradient(to top, transparent 0%, black 15%)', WebkitMaskImage: 'linear-gradient(to top, transparent 0%, black 15%)' }}
         />
+
       </motion.div>
 
       <div className="absolute bottom-[16vw] right-6 md:right-12 z-30 max-w-xs md:max-w-sm hidden md:block text-right">

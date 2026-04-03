@@ -74,7 +74,7 @@ export async function getArticleData(slug: string): Promise<ArticleData | null> 
       content: htmlContent,
       ...matterResult.data,
     } as ArticleData;
-  } catch (error) {
+  } catch {
     return null;
   }
 }

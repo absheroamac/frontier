@@ -2,6 +2,8 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useState, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
+
 import { ArticleData } from "@/lib/mdx";
 
 export function EditorialGrid({ allArticles }: { allArticles: ArticleData[] }) {
@@ -53,12 +55,13 @@ export function EditorialGrid({ allArticles }: { allArticles: ArticleData[] }) {
                           viewport={{ root: stickyRef, amount: 0.4 }}
                           transition={{ duration: 0.8, ease: [0.34, 1.56, 0.64, 1] }}
                         >
-                          <motion.img 
+                          <Image 
                             src={article.image} 
                             alt={article.title}
+                            fill
                             className="w-full h-full object-cover opacity-80 mix-blend-luminosity grayscale group-hover:grayscale-0 group-hover:opacity-100 group-hover:mix-blend-normal transition-all duration-[1s]"
-                            whileHover={{ scale: 1.05 }}
                           />
+
                           <div className={`absolute top-4 left-4 font-mono text-[10px] tracking-widest px-2 py-1 backdrop-blur-sm transition-colors duration-1000 ${isLight ? 'text-carbon/60 bg-white/50' : 'text-white/50 bg-carbon/50'}`}>FIG. 0{i + 1}</div>
                         </motion.div>
 
@@ -106,11 +109,13 @@ export function EditorialGrid({ allArticles }: { allArticles: ArticleData[] }) {
                   transition={{ duration: 0.6, delay: i * 0.1, ease: [0.34, 1.56, 0.64, 1] }}
                 >
                   <div className={`w-full aspect-[4/3] mb-6 overflow-hidden relative border transition-colors duration-1000 ${isLight ? 'bg-carbon/5 border-carbon/5' : 'bg-white/5 border-white/5'}`}>
-                    <img 
+                    <Image 
                       src={article.image} 
                       alt={article.title}
+                      fill
                       className="w-full h-full object-cover opacity-80 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-[0.8s] group-hover:scale-105" 
                     />
+
                   </div>
                   
                   <div className={`flex flex-col pb-6 border-b group-hover:border-emerald-500 transition-colors duration-500 ${isLight ? 'border-carbon/10' : 'border-white/5'}`}>

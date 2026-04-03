@@ -90,7 +90,7 @@ export function ContactSection() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 1, delay: 0.1, ease: [0.34, 1.56, 0.64, 1] }}
           >
-            Ship what's next.
+            Ship what&apos;s next.
           </motion.h2>
           
           <motion.div 
